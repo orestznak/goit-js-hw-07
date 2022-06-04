@@ -17,7 +17,6 @@ const listImages = galleryItems
                                     </a>
                                 </div>`)
                     .join('');
-console.log(listImages)
 
 imgGallery.innerHTML = listImages;
 
@@ -27,13 +26,14 @@ function showModal (event) {
     const link = getLinkOriginalImage(event);
     
     const instance = basicLightbox.create(`<img src=${link} width = "800" height ="600">`);
-    instance.show();
 
-    window.addEventListener('keydown', evt => {
+    instance.show(window.addEventListener('keydown', isEscapeDown));
+    
+    function isEscapeDown (evt) {
         if (evt.code === 'Escape'){
-            instance.close();
-        }
-    });
+            instance.close(window.removeEventListener('keydown', isEscapeDown));        
+        };
+    }
 }
 
 function getLinkOriginalImage(event) {
@@ -48,5 +48,6 @@ function getLinkOriginalImage(event) {
     
     return linkImageOriginal;
 }
+
 
 
